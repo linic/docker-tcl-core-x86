@@ -1,33 +1,35 @@
 #!/bin/sh
 #
 # @file tc-docker
-# @version v1.0
-# @description tinycore (tc) in docker
+# @version v2.0
+# @description Tiny Core Linux (tcl) Core x86 in docker
 # @author innovarew <box> (c) Copyright 2022.
+# @author linic
 # @copyright All rights reserved. Read LICENSE.txt file for the license terms.
 #
 # Changelog:
 #
-# [dd/mm/yyyy]        [author]
+# [YYYY-MM-DD]        [author]
 # [brief description]
 #
+# 2024-01-28        linic
+# Making necessary changes to generate a Core x86 image.
+#
+# [DD-MM-YYYY]
 # 26/08/2022        innovarew
 # v1.0 Initial version
 #
 
 PROGNAME=`basename "$0"`;
-PROGAUTHOR="innovarew <box> (c) 2022."
-PROGVERSION=v1.2;
+PROGAUTHOR="linic"
+PROGORIGINALAUTHOR="innovarew <box> (c) 2022"
+PROGVERSION=v2.0;
 
-[ -z "$TC_URL" ] && TC_URL=http://tinycorelinux.net/14.x/x86_64/
-ISO_URL=$TC_URL/release/TinyCorePure64-current.iso
+[ -z "$TC_URL" ] && TC_URL=http://tinycorelinux.net/14.x/x86/
+ISO_URL=$TC_URL/release/Core-current.iso
 TCZ_URL=$TC_URL/tcz
 
 TCE_DIR=$PWD/data/tce/optional
-if grep -qi tinycore /etc/os-release
-then
-    TCE_DIR=/tmp/tce/optional
-fi
 [ ! -d $TCE_DIR ] && mkdir -p $TCE_DIR
 
 tce_rootfs_init()
@@ -75,7 +77,7 @@ tce_rootfs_unpack()
         mkdir -p tinycore
         7z x -otinycore $ISO_FILE >/dev/null
         mkdir -p root
-        (cd root; zcat ../tinycore/boot/corepure64.gz | cpio --extract)
+        (cd root; zcat ../tinycore/boot/core.gz | cpio --extract)
     fi
 }
 
