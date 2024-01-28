@@ -2,25 +2,30 @@
 #
 # @file tc-docker
 # @version v1.0
-# @description tinycore (tc) in docker
+# @description Tiny Core Linux (tcl) Core x86  in docker
 # @author innovarew <box> (c) Copyright 2022.
+# @author linic
 # @copyright All rights reserved. Read LICENSE.txt file for the license terms.
 #
 # Changelog:
 #
-# [dd/mm/yyyy]        [author]
+# [YYYY-MM-DD]        [author]
 # [brief description]
 #
+# 2024-01-28
+# Making necessary changes to generate a Core x86 image.
+#
+# [DD-MM-YYYY]
 # 26/08/2022        innovarew
 # v1.0 Initial version
 #
 
 PROGNAME=`basename "$0"`;
-PROGAUTHOR="innovarew <box> (c) 2022."
+PROGAUTHOR="innovarew <box> (c) 2022. & modified by Linic"
 PROGVERSION=v1.2;
 
-[ -z "$TC_URL" ] && TC_URL=http://tinycorelinux.net/14.x/x86_64/
-ISO_URL=$TC_URL/release/TinyCorePure64-current.iso
+[ -z "$TC_URL" ] && TC_URL=http://tinycorelinux.net/14.x/x86/
+ISO_URL=$TC_URL/release/Core-current.iso
 TCZ_URL=$TC_URL/tcz
 
 TCE_DIR=$PWD/data/tce/optional
