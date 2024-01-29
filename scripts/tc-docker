@@ -3,7 +3,6 @@
 # @file tc-docker
 # @version v2.0
 # @description Tiny Core Linux (tcl) Core x86 in docker
-# @author innovarew <box> (c) Copyright 2022.
 # @author linic
 # @copyright All rights reserved. Read LICENSE.txt file for the license terms.
 #
@@ -22,47 +21,46 @@
 
 PROGNAME=`basename "$0"`;
 PROGAUTHOR="linic"
-PROGORIGINALAUTHOR="innovarew <box> (c) 2022"
-PROGVERSION=v2.0;
+PROGVERSION="v2.0";
 
-[ -z "$TC_URL" ] && TC_URL=http://tinycorelinux.net/14.x/x86/
+TCL_RELEASE="14.x"
+TCL_ARCHITECTURE="x86"
+TC_URL=http://tinycorelinux.net/$TCL_RELEASE/$TCL_ARCHITECTURE/
 ISO_URL=$TC_URL/release/Core-current.iso
 TCZ_URL=$TC_URL/tcz
 
-TCE_DIR=$PWD/data/tce/optional
+DATA_DIR=$PWD/data
+TCE_DIR=$DATA_DIR/tce/optional
 [ ! -d $TCE_DIR ] && mkdir -p $TCE_DIR
+ROOT_DIR=$DATA_DIR/root
+[ ! -d $ROOT_DIR ] && mkdir -p $ROOT_DIR
+TCL_DIR=$DATA_DIR/tiny_core_linux
+[ ! -d $TCL_DIR ] && mkdir -p $TCL_DIR
 
 tce_rootfs_init()
 {
-    TC_VER=$(echo $TC_URL | awk -F/ '{print $4"-"$5}')
+    TC_VER=$TCL_RELEASE-$TCL_ARCHITECTURE
     TC_TAR="rootfs-$TC_VER.tar.xz"
     TC_PATCH="rootfs-$TC_VER.patch"
 
     echo "# $ISO_URL"
     (
-        rm -r data/tce
-        mkdir -p $TCE_DIR
-
-        rm -r data/root
-        rm -r data/tinycore
-
-        mkdir -p data
-        cd data
+        cd $DATA_DIR
 
         # unpack rootfs core.gz
         tce_rootfs_unpack "$@"
 
         # rootfs contains .ko.gz not used by docker
-        find $PWD/root/ -name '*.ko.gz' -exec rm {} \;
+        find $ROOT_DIR -name '*.ko.gz' -exec rm {} \;
 
         # get unsquashfs into container to unpack tcz
-        tce_install liblzma.tcz $PWD/root/
-        tce_install squashfs-tools.tcz $PWD/root/
+        tce_install liblzma.tcz $ROOT_DIR
+        tce_install squashfs-tools.tcz $ROOT_DIR
 
         patch -p2 < $TC_PATCH
     )
 
-    (cd data/root; tar cJf ../$TC_TAR .)
+    (cd $ROOT_DIR; tar cJf ../$TC_TAR .)
 }
 
 tce_rootfs_unpack()
@@ -72,18 +70,13 @@ tce_rootfs_unpack()
     wget -qc "$ISO_URL"
     # wget -qc "$ISO_URL.md5.txt" && md5sum -c `basename "$ISO_URL.md5.txt"`
 
-    if [ ! -d "tinycore" ]
-    then
-        mkdir -p tinycore
-        7z x -otinycore $ISO_FILE >/dev/null
-        mkdir -p root
-        (cd root; zcat ../tinycore/boot/core.gz | cpio --extract)
-    fi
+    7z x -o$TCL_DIR $ISO_FILE
+    (cd $ROOT_DIR; zcat $TCL_DIR/boot/core.gz | cpio --extract)
 }
 
 tce_cddir()
 {
-    if [ -n "$PWD" -a "$PWD" != "$TCE_DIR" ]
+    if [ $PWD != $TCE_DIR ]
     then
         cd $TCE_DIR
     fi
@@ -117,17 +110,17 @@ tce_install()
         wget -qc $TCZ_URL/$app.md5.txt
         ! md5sum -c $app.md5.txt && return
 
-        unsquashfs -n -d "$root" -f $app >/dev/null
+        unsquashfs -n -d "$root" -f $app
 
         # update system
         mkdir -p $root/usr/local/tce.installed/
         touch $root/usr/local/tce.installed/${app%.tcz}
 
         # update libs
-        if [ -w /etc/ld.so.cache ]
-        then
-            ldconfig
-        fi
+        #if [ -w /etc/ld.so.cache ]
+        #then
+        #    ldconfig
+        #fi
     )
 }
 
