@@ -1,6 +1,8 @@
 # Set tinycore release
-TC_URL=http://tinycorelinux.net/14.x/x86/
-TC_VER=$(shell echo "${TC_URL}" | awk -F/ '{print $$4"-"$$5}')
+TCL_RELEASE="14.x"
+TCL_ARCHITECTURE="x86"
+TC_URL=http://tinycorelinux.net/$TCL_RELEASE/$TCL_ARCHITECTURE/
+TC_VER=$TCL_RELEASE-$TCL_ARCHITECTURE
 
 all: rootfs build run
 
