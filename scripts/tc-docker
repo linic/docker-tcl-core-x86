@@ -25,7 +25,7 @@ PROGVERSION="v2.0";
 
 TCL_RELEASE="14.x"
 TCL_ARCHITECTURE="x86"
-TC_URL=http://tinycorelinux.net/$TCL_RELEASE/$TCL_ARCHITECTURE/
+TC_URL=http://tinycorelinux.net/$TCL_RELEASE/$TCL_ARCHITECTURE
 ISO_URL=$TC_URL/release/Core-current.iso
 TCZ_URL=$TC_URL/tcz
 
