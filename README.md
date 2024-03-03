@@ -39,7 +39,7 @@ sha512sum rootfs-14.x-x86.tar.xz  # just to make sure the file was good
 ```
 sudo docker build --build-arg TC_VER="14.x-x86" -t tcl-core-x86:14.x-x86 -t tcl-core-x86:latest .
 sudo docker image list
-sudo docker run --name tcl-core-x86-test --interactive /bin/sh <replace-with-your-image-id>
+sudo docker run --name tcl-core-x86-test --interactive <replace-with-your-image-id> /bin/sh 
 cat /etc/os-release 
 NAME=TinyCore
 VERSION="14.0"
