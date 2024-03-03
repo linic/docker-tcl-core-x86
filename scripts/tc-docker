@@ -23,7 +23,7 @@ PROGNAME=`basename "$0"`;
 PROGAUTHOR="linic"
 PROGVERSION="v2.0";
 
-TCL_RELEASE="14.x"
+TCL_RELEASE="15.x"
 TCL_ARCHITECTURE="x86"
 TC_URL=http://tinycorelinux.net/$TCL_RELEASE/$TCL_ARCHITECTURE
 ISO_URL=$TC_URL/release/Core-current.iso
