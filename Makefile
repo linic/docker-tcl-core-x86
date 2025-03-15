@@ -1,14 +1,26 @@
-# Set tinycore release
-TCL_RELEASE="15.x"
-TCL_ARCHITECTURE="x86"
-TC_URL=http://tinycorelinux.net/$TCL_RELEASE/$TCL_ARCHITECTURE/
-TC_VER=$TCL_RELEASE-$TCL_ARCHITECTURE
+# Build an image for the latest version of tinycore linux using the previous version image.
+TCL_MAJOR_VERSION=16
+TCL_ARCHITECTURE=x86
+# Only set RELEASE_CANDIDATE_VERSION to something if generating an image for an alpha or beta.
+# Set it to an empty string if you're building a fully released version.
+# Check the tinycore forum to know how they call it.
+# Example: https://forum.tinycorelinux.net/index.php/topic,27550
+# which calls it Core v16.0beta1
+RELEASE_CANDIDATE_VERSION=.0beta1
+DOCKER_TCL_VERSION=${TCL_MAJOR_VERSION}${RELEASE_CANDIDATE_VERSION}.x-${TCL_ARCHITECTURE}
+PREVIOUS_DOCKER_TCL_VERSION=$(shell echo $$(($(TCL_MAJOR_VERSION) - 1))).x-${TCL_ARCHITECTURE}
+TCL_RELEASE_TYPE=release_candidates
 
-all: rootfs build run
+all: build run
 
-rootfs:
-	scripts/tc-docker tce_rootfs_init
 build:
-	docker build --build-arg TC_VER=${TC_VER} -t tcl-core-x86:${TC_VER} -t tcl-core-x86:latest .
+	echo PREVIOUS_DOCKER_TCL_VERSION=${PREVIOUS_DOCKER_TCL_VERSION} && sudo docker build --progress=plain --no-cache \
+		--build-arg DOCKER_TCL_VERSION=${DOCKER_TCL_VERSION} \
+		--build-arg PREVIOUS_DOCKER_TCL_VERSION=${PREVIOUS_DOCKER_TCL_VERSION} \
+		--build-arg TCL_ARCHITECTURE=${TCL_ARCHITECTURE} \
+		--build-arg TCL_MAJOR_VERSION=${TCL_MAJOR_VERSION} \
+		--build-arg TCL_RELEASE_TYPE=${TCL_RELEASE_TYPE} \
+		-t tcl-core-x86:${DOCKER_TCL_VERSION} \
+		-t tcl-core-x86:latest .
 run:
-	docker run -it tcl-core-x86:latest /bin/sh
+	sudo docker run -it tcl-core-x86:latest /bin/sh

@@ -2,9 +2,34 @@
 
 Forked from [innovarew/docker-tinycore](https://github.com/innovarew/docker-tinycore/tree/main)
 [Docker](https://www.docker.com) from scratch image of [Tinycore Linux](http://www.tinycorelinux.net) Core x86 version.
-I was able to generate 1 image [linichotmailca/tcl-core-x86:14.x-x86](https://hub.docker.com/layers/linichotmailca/tcl-core-x86/14.x-x86/images/sha256-91db888ce3030f8d481cfc645b8166412ef5a74ff7c16fdbc9fa55df431737a0?context=repo)
+I was able to generate 2 images using the method almost unchanged
+[linichotmailca/tcl-core-x86:14.x-x86](https://hub.docker.com/layers/linichotmailca/tcl-core-x86/14.x-x86/images/sha256-91db888ce3030f8d481cfc645b8166412ef5a74ff7c16fdbc9fa55df431737a0?context=repo)
+[linichotmailca/tcl-core-x86:15.x-x86](https://hub.docker.com/layers/linichotmailca/tcl-core-x86/15.x-x86/images/sha256-eb68d3fa1ea004cd18cf7c7b0be9b86860d6293392c4c7da0208592593cab53e)
 
-# How did I get there?
+# Starting with 16.0beta1.x-x86
+
+## rootfs.patch
+There's a single [rootfs.patch](./rootfs.patch). It's used to patch the [rootfs.gz](http://repo.tinycorelinux.net/16.x/x86/release_candidates/distribution_files/).
+I generated a new one by copying the `tce-load` script from `rootfs.gz` from 16.0beta1. I found that one line didn't apply anymore so the patch was giving out an error.
+It changes `tce-load` so that it `unsquashfs` files to `/mnt/test` and then to `/`. I used `diff -u resource/tce-load-16.0beta1 resource/tce-load-16.0beta1.patched > data/rootfs.patch`
+
+## patch-tcl-for-docker.sh
+This script replaces the previous script which was [scripts/tc-docker](https://github.com/innovarew/docker-tinycore/blob/main/scripts/tc-docker).
+`tc-docker` would use the `Core-current.iso` and remove the `.ko.gz` files which are
+modules files (drivers which the kernel can load to make hardware like sound cards work). [patch-tcl-for-docker.sh](./tools/patch-tcl-for-docker.sh) uses
+[rootfs.gz](http://repo.tinycorelinux.net/16.x/x86/release_candidates/distribution_files/) which does not have the module files. It's not feature equivalent
+with `tc-docker`.
+
+## Makefile
+The new [Makefile](./Makefile) has more variables and allows to build images of alpha and beta releases. The difference is that pre-release versions will
+have their [rootfs.gz](http://repo.tinycorelinux.net/16.x/x86/release_candidates/distribution_files/) in the `release_candidates` folder instead of the
+`release` folder.
+
+## Dockerfile
+The [Dockerfile](./Dockerfile) uses the previous `tcl-core-x86` image has a resource to build the new image. For example, `16.x-x86` is built using
+`15.x-x86`.
+
+# 14.x-x86 and 15.x-x86 where generated this way.
 
 1. I forked from [innovarew/docker-tinycore](https://github.com/innovarew/docker-tinycore/tree/main)
 2. I removed all the data files.
@@ -34,7 +59,7 @@ cd docker-tcl-core-x86/data
 sudo docker cp ubuntu-tcl-builder:/root/docker-tcl-core-x86/data/rootfs-14.x-x86.tar.xz .
 sha512sum rootfs-14.x-x86.tar.xz  # just to make sure the file was good
 ```
-8. [rootfs-14.x-x86.tar.xz](https://github.com/linic/docker-tcl-core-x86/blob/main/data/rootfs-14.x-x86.tar.xz)
+8. [rootfs-14.x-x86.tar.xz](https://github.com/linic/docker-tcl-core-x86/blob/9dcce198e2c94b638092a57d048540a72ae0444a/data/rootfs-14.x-x86.tar.xz)
 9. Back on the host, 
 ```
 sudo docker build --build-arg TC_VER="14.x-x86" -t tcl-core-x86:14.x-x86 -t tcl-core-x86:latest .

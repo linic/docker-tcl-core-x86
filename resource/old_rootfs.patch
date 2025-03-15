@@ -1,5 +1,5 @@
---- a/data/root/usr/bin/tce-load	2022-08-30 08:31:42.991023502 +0200
-+++ b/data/root/usr/bin/tce-load	2022-08-30 08:44:49.504582953 +0200
+--- a/root/usr/bin/tce-load	2022-08-30 08:31:42.991023502 +0200
++++ b/root/usr/bin/tce-load	2022-08-30 08:44:49.504582953 +0200
 @@ -9,6 +9,7 @@
  KERNELVER=$(uname -r)
  unset WGET INSTALL COPYINSTALL BOOTING ONDEMAND DOWNLOAD_ONLY LOAD_ONLY SUPPRESS
@@ -22,8 +22,7 @@
 -		sudo /bin/umount -d /mnt/test
 +		sudo rm -rf /mnt/test/*
  	fi
--	[ "$BOOTING" ] || rmdir /mnt/test
-+	[ "$BOOTING" ] || sudo rmdir /mnt/test
+	[ "$BOOTING" ] || sudo rmdir /mnt/test
  }
  
  update_system() {

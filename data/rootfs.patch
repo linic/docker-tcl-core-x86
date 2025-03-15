@@ -1,5 +1,5 @@
---- a/data/root/usr/bin/tce-load	2022-08-30 08:31:42.991023502 +0200
-+++ b/data/root/usr/bin/tce-load	2022-08-30 08:44:49.504582953 +0200
+--- a/root/usr/bin/tce-load	2025-03-14 14:17:36.276043237 -0400
++++ b/root/usr/bin/tce-load	2025-03-14 14:24:56.420041590 -0400
 @@ -9,6 +9,7 @@
  KERNELVER=$(uname -r)
  unset WGET INSTALL COPYINSTALL BOOTING ONDEMAND DOWNLOAD_ONLY LOAD_ONLY SUPPRESS
@@ -8,7 +8,7 @@
  SAVED_DIR=`pwd`
  
  ONBOOTNAME="$(getbootparam lst 2>/dev/null)"
-@@ -81,15 +82,15 @@
+@@ -81,13 +82,13 @@
  
  copyInstall() {
  	[ -d /mnt/test ] || sudo /bin/mkdir -p /mnt/test
@@ -22,8 +22,5 @@
 -		sudo /bin/umount -d /mnt/test
 +		sudo rm -rf /mnt/test/*
  	fi
--	[ "$BOOTING" ] || rmdir /mnt/test
-+	[ "$BOOTING" ] || sudo rmdir /mnt/test
+ 	[ "$BOOTING" ] || sudo rmdir /mnt/test
  }
- 
- update_system() {
