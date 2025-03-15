@@ -9,7 +9,9 @@
 ###################################################################################################
 
 ##################################################################
-# Generate a rootfs-DOCKER_TCL_VERSION.tar.xz.
+# Unpack rootfs.gz and patch tce-load. Used by an intermediate
+# image when building a new docker image. See Dockerfile here
+# https://github.com/linic/docker-tcl-core-x86/blob/main/Dockerfile
 #
 # Since and Core-current.iso is vmlinuz + core.gz
 # and core.gz is rootfs.gz + modules.gz,
@@ -94,10 +96,9 @@ main()
   # Ensure directories exist.
   mkdir -p $TCL_DIRECTORY
   mkdir -p $ROOT_DIRECTORY
-  # Generating the tar file which will be used by the final docker image.
-  DOCKER_TCL_ROOTFS_TAR="$HOME_TC/rootfs-$DOCKER_TCL_VERSION.tar.gz"
+
+  # Patchine tce-load to use unsquashfs.
   DOCKER_TCL_ROOTFS_PATCH="$HOME_TC/rootfs.patch"
-  pwd
   if [ ! -e $DOCKER_TCL_ROOTFS_PATCH ]; then
     echo "$DOCKER_TCL_ROOTFS_PATCH is missing."
     exit 30
@@ -139,15 +140,6 @@ main()
   # Need by data/rootfs.patch which modifies tce-load to unsquashfs the .tcz
   # since mount binds are not available inside docker.
   tce_install squashfs-tools.tcz $ROOT_DIRECTORY
-
-  # Generate the rootfs-DOCKER-TCL-VERSION.tar.xz file.
-  ls $HOME_TC
-  ls .
-  pwd
-  ls -la $(dirname $DOCKER_TCL_ROOTFS_TAR)
-  echo "--tar_start--"
-  sudo tar cvzf $DOCKER_TCL_ROOTFS_TAR .
-  echo "--tar_end--"
 }
 
 # All credits for tce_install go to innovarew and where this function came from.
