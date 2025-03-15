@@ -34,8 +34,8 @@
 main()
 {
   if [ ! $# -eq 4 ]; then
-    echo "Please provide a version number, an architecture and a "\
-      "release type. For example, patch-tcl-for-docker.sh 16 "\
+    echo "Please provide a version number, an architecture a "\
+      "release type and a docker tcl version. For example, patch-tcl-for-docker.sh 16 "\
       "x86 release_candidates 16.0beta1.x-x86"
     exit 5
   fi
@@ -97,7 +97,7 @@ main()
   mkdir -p $TCL_DIRECTORY
   mkdir -p $ROOT_DIRECTORY
 
-  # Patchine tce-load to use unsquashfs.
+  # Check the patch file for patching tce-load to use unsquashfs exists.
   DOCKER_TCL_ROOTFS_PATCH="$HOME_TC/rootfs.patch"
   if [ ! -e $DOCKER_TCL_ROOTFS_PATCH ]; then
     echo "$DOCKER_TCL_ROOTFS_PATCH is missing."
@@ -135,7 +135,7 @@ main()
     exit 50
   fi
   echo "--patch_end--"
-
+ 
   # Get squashfs-tools.tcz in the $ROOT_DIRECTORY
   # Need by data/rootfs.patch which modifies tce-load to unsquashfs the .tcz
   # since mount binds are not available inside docker.
@@ -147,57 +147,57 @@ main()
 # usage: tce_install squashfs-tools.tcz /
 tce_install()
 {
-	# Change here - linic@hotmail.ca
+  # Change here - linic@hotmail.ca
   if [ ! $# -eq 2 ]; then
-	  echo ".tcz name required as the first parameter and the root path of the TCL being modified are "\
-			"required. For example: tce_install liblzma.tcz /home/tc/root/."
-	 	exit 20
-	fi
-
+    echo ".tcz name required as the first parameter and the root path of the TCL being modified are "\
+      "required. For example: tce_install liblzma.tcz /home/tc/root/."
+    exit 20
+  fi
+ 
   local app=$1
   local root=$2
-
-	# Change here - linic@hotmail.ca
+ 
+  # Change here - linic@hotmail.ca
   if [ -e "$root/usr/local/tce.installed/${app%.tcz}" ]; then
     echo "$app already installed in $root"
   fi
+ 
+  # Another small change to cd $TCE_DIR - linic@hotmail.ca
+  (
+    cd $TCL_DIRECTORY
 
-	# Another small change to cd $TCE_DIR - linic@hotmail.ca
-	(
-  	cd $TCL_DIRECTORY
-
+    # Removed the -qc from all wget commands -linic@hotmail.ca
     if wget "$TCZ_URL/$app.dep"; then
       for dep in $(cat "$app.dep")
         do
           tce_install $dep $root
         done
     fi
-
+ 
     wget "$TCZ_URL/$app"
     wget "$TCZ_URL/$app.md5.txt"
-	  # Removed the check for the .md5.txt file - linic@hotmail.ca
+    # Removed the check for the .md5.txt file and made more verbose - linic@hotmail.ca
     if md5sum -c "$app.md5.txt"; then
       echo "$app validated successfully."
     else
       echo "$app validation failed!"
       exit 20
     fi
-
-
-    if [ -n "$UNSQUASHFS" ]; then
-      sudo unsquashfs -n -d "$root" -f "$app" >/dev/null
-
-      # Create a file in tce.installed to keep track of what's already installed.
-      sudo mkdir -p "$root/usr/local/tce.installed/"
-      sudo touch "$root/usr/local/tce.installed/${app%.tcz}"
-    fi
-
+ 
+    # Since the rootfs.gz has been extracted using sudo cpio, the following
+    # lines also need sudo.
+    sudo unsquashfs -n -d "$root" -f "$app"
+    # Create a file in tce.installed to keep track of what's already installed.
+    sudo mkdir -p "$root/usr/local/tce.installed/"
+    sudo touch "$root/usr/local/tce.installed/${app%.tcz}"
+ 
     # update libs
     if [ -w /etc/ld.so.cache ]; then
       sudo ldconfig
     fi
-	)
+  )
 }
+
 
 main "$@"
 

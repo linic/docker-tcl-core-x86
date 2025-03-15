@@ -29,7 +29,76 @@ have their [rootfs.gz](http://repo.tinycorelinux.net/16.x/x86/release_candidates
 The [Dockerfile](./Dockerfile) uses the previous `tcl-core-x86` image has a resource to build the new image. For example, `16.x-x86` is built using
 `15.x-x86`.
 
-# 14.x-x86 and 15.x-x86 where generated this way.
+# Last build warnings
+Just in case I need this in the future:
+```
+#8 0.187 sh: missing ]
+#8 0.187 sh: missing ]
+[...]
+#8 8.604 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 8.870 wget: server returned error: HTTP/1.1 404 Not Found
+#8 8.940 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 9.206 saving to 'libzstd.tcz'
+#8 9.862 libzstd.tcz           58% |******************              |  176k  0:00:00 ETA
+#8 10.19 libzstd.tcz          100% |********************************|  304k  0:00:00 ETA
+#8 10.19 'libzstd.tcz' saved
+[...]
+#8 10.57 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 10.82 wget: server returned error: HTTP/1.1 404 Not Found
+#8 10.90 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 11.13 saving to 'liblz4.tcz'
+#8 11.36 liblz4.tcz           100% |********************************| 61440  0:00:00 ETA
+#8 11.36 'liblz4.tcz' saved
+[...]
+#8 6.147 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 6.376 wget: server returned error: HTTP/1.1 404 Not Found
+#8 6.448 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 6.681 saving to 'liblzma.tcz'
+[...]
+#8 7.414 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 7.642 wget: server returned error: HTTP/1.1 404 Not Found
+#8 7.714 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 7.949 saving to 'lzo.tcz'
+[...]
+#8 8.604 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 8.870 wget: server returned error: HTTP/1.1 404 Not Found
+#8 8.940 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 9.206 saving to 'libzstd.tcz'
+[...]
+#8 10.57 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 10.82 wget: server returned error: HTTP/1.1 404 Not Found
+#8 10.90 Connecting to tinycorelinux.net (128.127.66.77:80)
+#8 11.13 saving to 'liblz4.tcz'
+[...]
+#10 [final 2/2] RUN NORTC=1 NOZSWAP=1 /etc/init.d/tc-config
+#10 0.183 Booting Core 16.0beta1 
+#10 0.183 Running Linux Kernel 5.10.0-34-amd64.
+#10 0.183 Checking boot options... Done.
+#10 0.184 Starting udev daemon for hotplug support... Done.
+#10 0.287 Skipping compressed swap in ram as requested from the boot command line.
+#10 0.287 Scanning hard disk partitions to create /etc/fstab 
+#10 0.293 Setting Language to C Done.
+#10 0.294 Skipping rtc as requested from the boot command line.
+#10 0.294 hostname: sethostname: Operation not permitted
+#10 0.295 ifconfig: SIOCSIFADDR: Operation not permitted
+#10 0.296 route: SIOCADDRT: Operation not permitted
+#10 0.327 Possible swap partition(s) enabled.
+#10 0.331 Loading extensions... Done.
+#10 0.432 Setting keymap to usloadkmap: can't open console
+#10 0.433  Done.
+#10 0.447 Setting hostname to box hostname: sethostname: Operation not permitted
+#10 0.449 rm: can't remove '/etc/hosts': Device or resource busy
+#10 0.449 /usr/bin/sethostname: line 15: can't create /etc/hosts: Read-only file system
+#10 0.449 Done.
+#10 DONE 0.5s
+[...]
+ 1 warning found (use docker --debug to expand):
+ - InvalidDefaultArgInFrom: Default value for ARG linichotmailca/tcl-core-x86:$PREVIOUS_DOCKER_TCL_VERSION results in empty or invalid base image name (line 8)
+```
+None of these prevent the build from completing and the image from starting.
+
+# Historical
+## 14.x-x86 and 15.x-x86 where generated this way.
 
 1. I forked from [innovarew/docker-tinycore](https://github.com/innovarew/docker-tinycore/tree/main)
 2. I removed all the data files.
