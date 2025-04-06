@@ -4,9 +4,7 @@ Forked from [innovarew/docker-tinycore](https://github.com/innovarew/docker-tiny
 [Docker](https://www.docker.com) from scratch image of [Tinycore Linux](http://www.tinycorelinux.net) Core x86 version.
 
 # Existing images
-[linichotmailca/tcl-core-x86:16.0beta1.x-x86](https://hub.docker.com/layers/linichotmailca/tcl-core-x86/16.0beta1.x-x86/images/sha256-430e32eae0af6e2ca24b1f59a4aef684cb111122ba6c26020bec32b4d1d7f0fe)
-[linichotmailca/tcl-core-x86:15.x-x86](https://hub.docker.com/layers/linichotmailca/tcl-core-x86/15.x-x86/images/sha256-eb68d3fa1ea004cd18cf7c7b0be9b86860d6293392c4c7da0208592593cab53e)
-[linichotmailca/tcl-core-x86:14.x-x86](https://hub.docker.com/layers/linichotmailca/tcl-core-x86/14.x-x86/images/sha256-91db888ce3030f8d481cfc645b8166412ef5a74ff7c16fdbc9fa55df431737a0?context=repo)
+See [linichotmailca/tcl-core-x86](https://hub.docker.com/repository/docker/linichotmailca/tcl-core-x86/general)
 
 # Starting with 16.0beta1.x-x86
 
@@ -34,53 +32,6 @@ The [Dockerfile](./Dockerfile) uses the previous `tcl-core-x86` image has a reso
 # Last build warnings
 Just in case I need this in the future:
 ```
-#8 0.187 sh: missing ]
-#8 0.187 sh: missing ]
-[...]
-#8 8.604 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 8.870 wget: server returned error: HTTP/1.1 404 Not Found
-#8 8.940 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 9.206 saving to 'libzstd.tcz'
-#8 9.862 libzstd.tcz           58% |******************              |  176k  0:00:00 ETA
-#8 10.19 libzstd.tcz          100% |********************************|  304k  0:00:00 ETA
-#8 10.19 'libzstd.tcz' saved
-[...]
-#8 10.57 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 10.82 wget: server returned error: HTTP/1.1 404 Not Found
-#8 10.90 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 11.13 saving to 'liblz4.tcz'
-#8 11.36 liblz4.tcz           100% |********************************| 61440  0:00:00 ETA
-#8 11.36 'liblz4.tcz' saved
-[...]
-#8 6.147 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 6.376 wget: server returned error: HTTP/1.1 404 Not Found
-#8 6.448 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 6.681 saving to 'liblzma.tcz'
-[...]
-#8 7.414 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 7.642 wget: server returned error: HTTP/1.1 404 Not Found
-#8 7.714 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 7.949 saving to 'lzo.tcz'
-[...]
-#8 8.604 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 8.870 wget: server returned error: HTTP/1.1 404 Not Found
-#8 8.940 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 9.206 saving to 'libzstd.tcz'
-[...]
-#8 10.57 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 10.82 wget: server returned error: HTTP/1.1 404 Not Found
-#8 10.90 Connecting to tinycorelinux.net (128.127.66.77:80)
-#8 11.13 saving to 'liblz4.tcz'
-[...]
-#10 [final 2/2] RUN NORTC=1 NOZSWAP=1 /etc/init.d/tc-config
-#10 0.183 Booting Core 16.0beta1 
-#10 0.183 Running Linux Kernel 5.10.0-34-amd64.
-#10 0.183 Checking boot options... Done.
-#10 0.184 Starting udev daemon for hotplug support... Done.
-#10 0.287 Skipping compressed swap in ram as requested from the boot command line.
-#10 0.287 Scanning hard disk partitions to create /etc/fstab 
-#10 0.293 Setting Language to C Done.
-#10 0.294 Skipping rtc as requested from the boot command line.
 #10 0.294 hostname: sethostname: Operation not permitted
 #10 0.295 ifconfig: SIOCSIFADDR: Operation not permitted
 #10 0.296 route: SIOCADDRT: Operation not permitted
@@ -151,8 +102,4 @@ BUG_REPORT_URL="http://forum.tinycorelinux.net/
 10. [linichotmailca/tcl-core-x86:14.x-x86](https://hub.docker.com/layers/linichotmailca/tcl-core-x86/14.x-x86/images/sha256-91db888ce3030f8d481cfc645b8166412ef5a74ff7c16fdbc9fa55df431737a0?context=repo)
 
 # Thanks to [@innovarew](https://github.com/innovarew)! You're awesome!
-
-# TODO
-
-More testing to see how I can leverage this container more in my side projects.
 

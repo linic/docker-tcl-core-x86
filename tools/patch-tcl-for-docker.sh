@@ -54,7 +54,7 @@ main()
   # Check the architecture type.
   TCL_ARCHITECTURE=$2
   TCL_64=""
-  if [ $TCL_ARCHITECTURE != "x86" && $TCL_ARCHITECTURE != "x86_64" ]; then
+  if [ $TCL_ARCHITECTURE != "x86" ] && [ $TCL_ARCHITECTURE != "x86_64" ]; then
     echo "Only x86 or x86_64 are supported for now."
     exit 2
   fi
@@ -66,7 +66,7 @@ main()
 
   # Check the release type.
   TCL_RELEASE_TYPE=$3
-  if [ $TCL_RELEASE_TYPE != "release" && $TCL_RELEASE_TYPE != "release_candidates"  ]; then
+  if [ $TCL_RELEASE_TYPE != "release" ] && [ $TCL_RELEASE_TYPE != "release_candidates" ]; then
     echo "$TCL_RELEASE_TYPE is not supported. Please enter 'release' or "\
       "'release_candidates'. For example, patch-tcl-for-docker.sh 16 release_candidates."
     exit 3
