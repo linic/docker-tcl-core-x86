@@ -5,6 +5,9 @@ Forked from [innovarew/docker-tinycore](https://github.com/innovarew/docker-tiny
 
 # Existing images
 See [linichotmailca/tcl-core-x86](https://hub.docker.com/repository/docker/linichotmailca/tcl-core-x86/general)
+- `latest` can be from a release or release candidate, whichever is the latest the tinycorelinux team is working on.
+- `stable` is the latest stable. At this time (2026-01-18), they are working on 17.0alpha1 so the latest will be that,
+but stable is 16.2.
 
 # Starting with 16.0beta1.x-x86
 
