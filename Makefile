@@ -5,9 +5,10 @@ TCL_ARCHITECTURE=x86
 # Only set RELEASE_CANDIDATE_VERSION to something if generating an image for an alpha or beta.
 # Set it to an empty string if you're building a fully released version.
 # Check the tinycore forum to know how they call it.
-# Example: https://forum.tinycorelinux.net/index.php/topic,27948.0.html
-# which calls it Core v16.0beta1
-RELEASE_CANDIDATE_VERSION=alpha1
+# Current latest:
+#   https://forum.tinycorelinux.net/index.php/topic,27982.0.html
+#   v17.0beta1
+RELEASE_CANDIDATE_VERSION=beta1
 IMAGE_X_VERSION=${TCL_MAJOR_VERSION}.x-${TCL_ARCHITECTURE}
 IMAGE_VERSION=${TCL_MAJOR_VERSION}.$(TCL_MINOR_VERSION)${RELEASE_CANDIDATE_VERSION}-${TCL_ARCHITECTURE}
 # TODO: switch to release instead of release_candidates once 17.0 is released.
@@ -34,7 +35,7 @@ ifeq ($(TCL_RELEASE_TYPE),release)
 endif
 
 run:
-	sudo docker run -it tcl-core-x86:latest /bin/sh
+	sudo docker run -it linichotmailca/tcl-core-x86:latest /bin/sh
 
 push:
 	sudo docker push linichotmailca/tcl-core-x86:${IMAGE_VERSION}
