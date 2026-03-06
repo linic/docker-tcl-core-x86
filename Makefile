@@ -6,13 +6,14 @@ TCL_ARCHITECTURE=x86
 # Set it to an empty string if you're building a fully released version.
 # Check the tinycore forum to know how they call it.
 # Current latest:
-#   https://forum.tinycorelinux.net/index.php/topic,27982.0.html
-#   v17.0beta1
-RELEASE_CANDIDATE_VERSION=beta1
+#   https://forum.tinycorelinux.net/index.php/topic,28008.0.html
+#   v17.0
+#RELEASE_CANDIDATE_VERSION=beta1
 IMAGE_X_VERSION=${TCL_MAJOR_VERSION}.x-${TCL_ARCHITECTURE}
 IMAGE_VERSION=${TCL_MAJOR_VERSION}.$(TCL_MINOR_VERSION)${RELEASE_CANDIDATE_VERSION}-${TCL_ARCHITECTURE}
 # TODO: switch to release instead of release_candidates once 17.0 is released.
-TCL_RELEASE_TYPE=release_candidates
+#TCL_RELEASE_TYPE=release_candidates
+TCL_RELEASE_TYPE=release
 
 .PHONY: all build run push tag-stable
 
